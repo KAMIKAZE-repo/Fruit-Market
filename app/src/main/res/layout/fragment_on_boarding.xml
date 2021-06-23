@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="state"
+            type="com.example.myapplication.model.OnBoard" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.OnBoardingFragment">
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="70dp"
+            android:paddingVertical="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/dot_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/skip" />
+
+        <TextView
+            android:id="@+id/skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginRight="35dp"
+            android:text="@string/skip"
+            android:clickable="true"
+            android:visibility="@{state.skipVisibility}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dot_1"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/dot"
+            tools:enabled="true"
+            android:enabled="@{state.dot1State}"
+            app:layout_constraintBottom_toBottomOf="@+id/dot_2"
+            app:layout_constraintEnd_toStartOf="@+id/dot_2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/dot_2"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="13dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginBottom="168dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginRight="13dp"
+            android:background="@drawable/dot"
+            tools:enabled="false"
+            android:enabled="@{state.dot2State}"
+            app:layout_constraintEnd_toStartOf="@+id/dot_3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/dot_1"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/dot_3"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            tools:enabled="false"
+            android:enabled="@{state.dot3State}"
+            android:background="@drawable/dot"
+            app:layout_constraintBottom_toBottomOf="@+id/dot_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/dot_2" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="146dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="85dp"
+            tools:text="Next"
+            android:text="@{state.buttonText}"
+            android:textAllCaps="false"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dot_2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
