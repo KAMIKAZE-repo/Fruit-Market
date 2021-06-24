@@ -12,6 +12,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="search"
+        android:elevation="10dp"
+        android:layout_marginTop="10dp"
         app:startIconTint="#C3C3C3"
         android:textColorHint="#C3C3C3"
         app:layout_constraintEnd_toStartOf="@+id/guideline7"
@@ -26,10 +28,12 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:scrollbars="none"
+        android:layout_marginTop="10dp"
         android:paddingHorizontal="10dp"
+        android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="@+id/search_bar"
         app:layout_constraintStart_toStartOf="@+id/search_bar"
         app:layout_constraintTop_toBottomOf="@+id/search_bar">
@@ -52,44 +56,23 @@
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:text="choice_1" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_2"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="choice_2" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_3"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="choice_3" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_4"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="choice_4" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_5"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="choice_5" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_6"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="choice_6" />
-
         </com.google.android.material.chip.ChipGroup>
+
     </HorizontalScrollView>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/home_recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/horizontalScrollView"
+        app:layout_constraintStart_toStartOf="@+id/horizontalScrollView"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+        tools:itemCount="5"
+        tools:listitem="@layout/product_list_by_categorie" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline6"

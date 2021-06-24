@@ -2,6 +2,7 @@ package com.example.myapplication.utils
 
 import android.view.View
 import com.example.myapplication.R
+import com.example.myapplication.model.Category
 import com.example.myapplication.model.OnBoard
 import com.example.myapplication.model.OnBoardData
 
@@ -45,4 +46,28 @@ val states = arrayListOf(
         dot3State = true,
         "Get Started"
     ),
+)
+
+
+val categories = listOf(
+    Category(
+        "Organic Fruits",
+        "Pick up from organic farms",
+        20
+    ),
+    Category(
+        "Mixed Fruit Pack",
+        "Fruit mix fresh pack",
+        20
+    ),
+    Category(
+        "Stone Fruits",
+        "Fresh Stone Fruits",
+        20
+    ),
+    Category(
+        "Melons",
+        "Fresh Melons Fruits",
+        20
+    )
 )
