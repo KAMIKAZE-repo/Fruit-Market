@@ -7,3 +7,8 @@ import androidx.databinding.BindingAdapter
 fun TextView.setOffer(offer: Int){
     text = "($offer%)"
 }
+
+@BindingAdapter("price")
+fun TextView.setProductPrice(price: Int){
+    text = "$ $price Per/Kg"
+}

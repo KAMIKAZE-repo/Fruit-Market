@@ -3,39 +3,33 @@ package com.example.myapplication.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.databinding.ProductListByCategorieBinding
-import com.example.myapplication.model.Category
+import com.example.myapplication.databinding.ProductCardBinding
+import com.example.myapplication.model.ProductCard
 
-class CategoriesCardListAdapter: RecyclerView.Adapter<CategoriesCardListAdapter.ViewHolder>() {
+class ProductListAdapter: RecyclerView.Adapter<ProductListAdapter.ViewHolder>() {
 
-    var data = listOf<Category>()
+    var data = listOf<ProductCard>()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
 
-    /*var dataLocal = listOf<ProductCard>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }*/
 
-    class ViewHolder(private val binding: ProductListByCategorieBinding):RecyclerView.ViewHolder(binding.root){
-
-        fun bind(item: Category){
-            binding.category = item
+    class ViewHolder(private val binding: ProductCardBinding):RecyclerView.ViewHolder(binding.root){
+        fun bind(item: ProductCard){
+            binding.product = item
             binding.executePendingBindings()
         }
 
         companion object{
-            fun from(parent: ViewGroup): ViewHolder{
+            fun from(parent: ViewGroup):ViewHolder{
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ProductListByCategorieBinding.inflate(layoutInflater, parent, false)
+                val binding = ProductCardBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
             }
         }
-
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
     }

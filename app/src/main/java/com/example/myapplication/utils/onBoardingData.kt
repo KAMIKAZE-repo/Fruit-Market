@@ -5,6 +5,7 @@ import com.example.myapplication.R
 import com.example.myapplication.model.Category
 import com.example.myapplication.model.OnBoard
 import com.example.myapplication.model.OnBoardData
+import com.example.myapplication.model.ProductCard
 
 val data = arrayListOf(
     OnBoardData(
@@ -70,4 +71,18 @@ val categories = listOf(
         "Fresh Melons Fruits",
         20
     )
+)
+
+
+val products = listOf(
+    ProductCard(
+        "url",
+        "Strawberry",
+        300
+    ),
+    ProductCard(
+        "url",
+        "Oranges",
+        120
+    ),
 )
