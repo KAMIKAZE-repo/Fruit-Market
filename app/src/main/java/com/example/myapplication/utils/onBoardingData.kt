@@ -86,3 +86,9 @@ val products = listOf(
         120
     ),
 )
+
+val chipsData = listOf(
+    "Vegetables",
+    "Fruits",
+    "Dry Fruits"
+)

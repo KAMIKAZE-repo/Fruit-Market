@@ -14,16 +14,11 @@ class CategoriesCardListAdapter: RecyclerView.Adapter<CategoriesCardListAdapter.
             notifyDataSetChanged()
         }
 
-    /*var dataLocal = listOf<ProductCard>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }*/
-
     class ViewHolder(private val binding: ProductListByCategorieBinding):RecyclerView.ViewHolder(binding.root){
 
         fun bind(item: Category){
             binding.category = item
+            //TODO("send get request to grab all products related to this category")
             binding.executePendingBindings()
         }
 
