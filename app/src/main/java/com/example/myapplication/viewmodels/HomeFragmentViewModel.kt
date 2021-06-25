@@ -19,7 +19,7 @@ class HomeFragmentViewModel: ViewModel() {
 
     companion object{
         fun getCategoryProducts(category: String):List<ProductCard>{
-            return products
+            return products.getOrElse(category){ listOf()}
         }
 
         fun getProduct(id: Int){

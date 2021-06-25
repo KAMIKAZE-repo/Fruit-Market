@@ -74,17 +74,75 @@ val categories = listOf(
 )
 
 
-val products = listOf(
-    ProductCard(
-        "url",
-        "Strawberry",
-        300
+val products = mapOf<String, List<ProductCard>>(
+    "Organic Fruits" to listOf(
+        ProductCard(
+            "url",
+            "Strawberry",
+            300
+        ),
+        ProductCard(
+            "url",
+            "Oranges",
+            120
+        ),
+        ProductCard(
+            "url",
+            "Grapes",
+            160
+        )
     ),
-    ProductCard(
-        "url",
-        "Oranges",
-        120
+    "Mixed Fruit Pack" to listOf(
+        ProductCard(
+            "url",
+            "Multi Fruits Pack",
+            350
+        ),
+        ProductCard(
+            "url",
+            "Paper Fruits Pack",
+            230
+        ),
+        ProductCard(
+            "url",
+            "Tropicana",
+            140
+        )
     ),
+    "Stone Fruits" to listOf(
+        ProductCard(
+            "url",
+            "Nectarines",
+            250
+        ),
+        ProductCard(
+            "url",
+            "Apricots",
+            180
+        ),
+        ProductCard(
+            "url",
+            "Peaches",
+            100
+        )
+    ),
+    "Melons" to listOf(
+        ProductCard(
+            "url",
+            "Nectarines",
+            250
+        ),
+        ProductCard(
+            "url",
+            "Apricots",
+            180
+        ),
+        ProductCard(
+            "url",
+            "Peaches",
+            100
+        )
+    )
 )
 
 val chipsData = listOf(
