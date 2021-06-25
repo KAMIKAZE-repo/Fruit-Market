@@ -18,6 +18,7 @@ class ProductListAdapter: RecyclerView.Adapter<ProductListAdapter.ViewHolder>() 
     class ViewHolder(private val binding: ProductCardBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(item: ProductCard){
             binding.product = item
+            //TODO("Send GET request to get the product related to provided ID")
             binding.executePendingBindings()
         }
 

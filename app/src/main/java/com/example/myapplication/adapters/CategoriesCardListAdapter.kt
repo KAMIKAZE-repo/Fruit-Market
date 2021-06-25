@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ProductListByCategorieBinding
 import com.example.myapplication.model.Category
+import com.example.myapplication.viewmodels.HomeFragmentViewModel
 
 class CategoriesCardListAdapter: RecyclerView.Adapter<CategoriesCardListAdapter.ViewHolder>() {
 
@@ -16,9 +17,14 @@ class CategoriesCardListAdapter: RecyclerView.Adapter<CategoriesCardListAdapter.
 
     class ViewHolder(private val binding: ProductListByCategorieBinding):RecyclerView.ViewHolder(binding.root){
 
+        private val adapter = ProductListAdapter()
+
         fun bind(item: Category){
             binding.category = item
             //TODO("send get request to grab all products related to this category")
+            //For test Only
+            binding.productList.adapter = adapter
+            adapter.data = HomeFragmentViewModel.getCategoryProducts(item.name)
             binding.executePendingBindings()
         }
 
