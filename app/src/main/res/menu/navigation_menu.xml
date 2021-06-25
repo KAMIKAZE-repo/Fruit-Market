@@ -11,7 +11,7 @@
         android:icon="@drawable/shopping_cart"
         />
     <item
-        android:id="@+id/fragmnet3"
+        android:id="@+id/favoritesFragment"
         android:title="Favorite"
         android:icon="@drawable/favorite"
         />
