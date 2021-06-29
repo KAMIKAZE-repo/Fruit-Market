@@ -1,6 +1,7 @@
 package com.example.myapplication.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +9,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.R
 import com.example.myapplication.adapters.CategoriesCardListAdapter
-import com.example.myapplication.adapters.ProductListAdapter
 import com.example.myapplication.databinding.FragmentHomeBinding
-import com.example.myapplication.databinding.ProductCardBinding
-import com.example.myapplication.databinding.ProductListByCategorieBinding
 import com.example.myapplication.utils.categories
-import com.example.myapplication.utils.products
 import com.example.myapplication.viewmodels.HomeFragmentViewModel
 import com.google.android.material.chip.Chip
 
@@ -26,8 +23,6 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         categoriesAdapter = CategoriesCardListAdapter()
-        categoriesAdapter.data = categories
-
         viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
     }
 
@@ -43,7 +38,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.categories.observe(viewLifecycleOwner, {
+        viewModel.chips.observe(viewLifecycleOwner, {
             for(i in it){
                 binding.chipsGrp.addView((layoutInflater.inflate(R.layout.custom_chip, binding.chipsGrp, false) as Chip)
                     .apply {
@@ -52,5 +47,9 @@ class HomeFragment : Fragment() {
                 )
             }
         })//Creation des chips
+
+        viewModel.categories.observe(viewLifecycleOwner, {
+            categoriesAdapter.data = it
+        })
     }
 }

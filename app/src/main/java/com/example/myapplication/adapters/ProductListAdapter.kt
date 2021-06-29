@@ -4,11 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ProductCardBinding
+import com.example.myapplication.model.Product
 import com.example.myapplication.model.ProductCard
+import com.example.myapplication.viewmodels.HomeFragmentViewModel
 
 class ProductListAdapter: RecyclerView.Adapter<ProductListAdapter.ViewHolder>() {
 
-    var data = listOf<ProductCard>()
+    var data = listOf<Product>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -16,9 +18,11 @@ class ProductListAdapter: RecyclerView.Adapter<ProductListAdapter.ViewHolder>() 
 
 
     class ViewHolder(private val binding: ProductCardBinding):RecyclerView.ViewHolder(binding.root){
-        fun bind(item: ProductCard){
-            binding.product = item
+        fun bind(item: Product){
             //TODO("Send GET request to get the product related to provided ID")
+            val index = item.productUrl.lastIndexOf("/", item.productUrl.lastIndex, true)
+            val id = item.productUrl.substring(index+1)
+            binding.product = HomeFragmentViewModel().getProductInfo(id.toInt())
             binding.executePendingBindings()
         }
 

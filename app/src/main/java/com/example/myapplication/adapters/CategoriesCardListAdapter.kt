@@ -1,5 +1,6 @@
 package com.example.myapplication.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -21,10 +22,9 @@ class CategoriesCardListAdapter: RecyclerView.Adapter<CategoriesCardListAdapter.
 
         fun bind(item: Category){
             binding.category = item
-            //TODO("send get request to grab all products related to this category")
-            //For test Only
+            //still in test phase
             binding.productList.adapter = adapter
-            adapter.data = HomeFragmentViewModel.getCategoryProducts(item.name)
+            adapter.data = HomeFragmentViewModel().getAllProducts(item.name)
             binding.executePendingBindings()
         }
 

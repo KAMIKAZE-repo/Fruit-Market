@@ -13,7 +13,8 @@ fun FoodCategoriesContainer.toDomainModel():List<Category>{
         Category(
             it.name ?: "",
             "Pick up from organic farms",
-            20
+            20,
+            it.categoryUrl
         )
     }
 }

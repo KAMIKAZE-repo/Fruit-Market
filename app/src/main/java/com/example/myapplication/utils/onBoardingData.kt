@@ -54,22 +54,26 @@ val categories = listOf(
     Category(
         "Organic Fruits",
         "Pick up from organic farms",
-        20
+        20,
+        ""
     ),
     Category(
         "Mixed Fruit Pack",
         "Fruit mix fresh pack",
-        20
+        20,
+        ""
     ),
     Category(
         "Stone Fruits",
         "Fresh Stone Fruits",
-        20
+        20,
+        ""
     ),
     Category(
         "Melons",
         "Fresh Melons Fruits",
-        20
+        20,
+    ""
     )
 )
 
@@ -79,68 +83,68 @@ val products = mapOf<String, List<ProductCard>>(
         ProductCard(
             "url",
             "Strawberry",
-            300
+            300.0
         ),
         ProductCard(
             "url",
             "Oranges",
-            120
+            120.0
         ),
         ProductCard(
             "url",
             "Grapes",
-            160
+            160.0
         )
     ),
     "Mixed Fruit Pack" to listOf(
         ProductCard(
             "url",
             "Multi Fruits Pack",
-            350
+            350.0
         ),
         ProductCard(
             "url",
             "Paper Fruits Pack",
-            230
+            230.0
         ),
         ProductCard(
             "url",
             "Tropicana",
-            140
+            140.0
         )
     ),
     "Stone Fruits" to listOf(
         ProductCard(
             "url",
             "Nectarines",
-            250
+            250.0
         ),
         ProductCard(
             "url",
             "Apricots",
-            180
+            180.0
         ),
         ProductCard(
             "url",
             "Peaches",
-            100
+            100.0
         )
     ),
     "Melons" to listOf(
         ProductCard(
             "url",
             "Nectarines",
-            250
+            250.0
         ),
         ProductCard(
             "url",
             "Apricots",
-            180
+            180.0
         ),
         ProductCard(
             "url",
             "Peaches",
-            100
+            100.0
         )
     )
 )

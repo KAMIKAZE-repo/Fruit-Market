@@ -9,6 +9,6 @@ fun TextView.setOffer(offer: Int){
 }
 
 @BindingAdapter("price")
-fun TextView.setProductPrice(price: Int){
+fun TextView.setProductPrice(price: Double){
     text = "$ $price Per/Kg"
 }
