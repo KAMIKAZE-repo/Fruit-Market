@@ -21,8 +21,8 @@
             android:scaleType="fitCenter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/onboard_img_1"
-            tools:src="@tools:sample/avatars" />
+            tools:src="@tools:sample/avatars"
+            loadImageUrl="@{product.imgUrl}"/>
 
         <TextView
             android:id="@+id/textView4"

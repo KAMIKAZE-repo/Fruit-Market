@@ -10,7 +10,13 @@ data class ProductListContainer(
 data class Product(
     val name: String,
     @Json(name = "product_url")val productUrl: String
-)
+){
+    val id: Int
+        get() {
+            val index = productUrl.lastIndexOf("/", productUrl.lastIndex, true)
+            return  productUrl.substring(index+1).toInt()
+        }
+}
 
 
 fun ProductListContainer.toDomainModel() = products

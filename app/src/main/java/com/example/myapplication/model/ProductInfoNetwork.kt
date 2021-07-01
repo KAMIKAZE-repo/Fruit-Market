@@ -13,7 +13,7 @@ data class ProductInfoNetwork(
 
 fun ProductInfoNetwork.toDomainModel():ProductCard{
     return ProductCard(
-        photoUrl ?: "",
+        "https://api.predic8.de$photoUrl" ?: "",
         name,
         price
     )

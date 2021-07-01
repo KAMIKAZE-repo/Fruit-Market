@@ -1,22 +1,15 @@
 package com.example.myapplication.viewmodels
 
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.model.Category
-import com.example.myapplication.model.Product
-import com.example.myapplication.model.ProductCard
+import com.example.myapplication.model.*
 import com.example.myapplication.repositroies.FoodRepository
 import com.example.myapplication.utils.chipsData
-import com.example.myapplication.utils.products
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.coroutineContext
 
 class HomeFragmentViewModel: ViewModel() {
 
@@ -26,31 +19,65 @@ class HomeFragmentViewModel: ViewModel() {
     val chips: LiveData<List<String>>
         get() = _chips
 
-    private val _categories = MutableLiveData<List<Category>>()
-    val categories: LiveData<List<Category>>
-        get() = _categories
+    private val _productHolderList = MutableLiveData<List<ProductHolder>>()
+    val productHolderList: LiveData<List<ProductHolder>>
+        get() = _productHolderList
 
+    private val _homeVisibility = MutableLiveData<HomeVisibilty>()
+    val homeVisibility: LiveData<HomeVisibilty>
+        get() = _homeVisibility
 
     init {
         _chips.value = chipsData
+        _homeVisibility.value = HomeVisibilty(
+            View.GONE,
+            View.VISIBLE
+        )
         viewModelScope.launch {
-            _categories.value = repository.getAllCategories()
+            getData()
         }
     }
 
-    companion object{
-        fun getCategoryProducts(category: String):List<ProductCard>{
-            return products.getOrElse(category){ listOf()}
-        }
+    private fun getData(){
+        val newData = mutableListOf<ProductHolder>()
+        viewModelScope.launch {
+            try {
+                //Request to get all Categories
+                val categories = repository.getAllCategories()
+                for (category in categories) {//n*n request forEach category we have n product!!! ==> Disaster
+                    //request to get All productNetworkModel for each category
+                    if(category.name.isNotEmpty()){
+                        val products = repository.getAllProductByCategory(category.name).toMutableList()
+                        val productsCards = mutableListOf<ProductCard>()
+                        //forEach product we sent a request to get ProductInfo
+                        products.forEachIndexed { _, product ->
+                            val productCard = repository.getProductInfo(product.id)
+                            productsCards.add(productCard)
+                        }
+                        newData.add(
+                            ProductHolder(
+                                category,
+                                products,
+                                productsCards
+                            )
+                        )
+                        _productHolderList.value = newData
+                        _homeVisibility.value = HomeVisibilty(
+                            View.VISIBLE,
+                            View.GONE
+                        )
+                    }
+                }
 
-        fun getProduct(id: Int){
-
+            }catch (e: Exception){
+                Log.i("TAG", "$e")
+            }
         }
     }
 
 
     //TODO("remove those blocking Thread Functions")
-    fun getAllProducts(name: String):List<Product> = runBlocking {
+    /*fun getAllProducts(name: String):List<Product> = runBlocking {
         try {
             val listProduct: List<Product>
             withContext(Dispatchers.IO){
@@ -66,4 +93,9 @@ class HomeFragmentViewModel: ViewModel() {
             repository.getProductInfo(id)
     }
 
+
+    private suspend fun getCategoriesInitData(){
+        val categories =  repository.getAllCategories()
+        _categories.value = categories
+    }*/
 }

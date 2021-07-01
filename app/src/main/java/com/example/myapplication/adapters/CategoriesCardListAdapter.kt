@@ -1,16 +1,15 @@
 package com.example.myapplication.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ProductListByCategorieBinding
-import com.example.myapplication.model.Category
-import com.example.myapplication.viewmodels.HomeFragmentViewModel
+import com.example.myapplication.model.ProductHolder
 
 class CategoriesCardListAdapter: RecyclerView.Adapter<CategoriesCardListAdapter.ViewHolder>() {
 
-    var data = listOf<Category>()
+    var data = listOf<ProductHolder>()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -20,11 +19,13 @@ class CategoriesCardListAdapter: RecyclerView.Adapter<CategoriesCardListAdapter.
 
         private val adapter = ProductListAdapter()
 
-        fun bind(item: Category){
-            binding.category = item
+        fun bind(item: ProductHolder){
+            binding.category = item.category
             //still in test phase
             binding.productList.adapter = adapter
-            adapter.data = HomeFragmentViewModel().getAllProducts(item.name)
+            //TODO("Change this you motherfucker!!!!")
+            //adapter.data = HomeFragmentViewModel().getAllProducts(item.name)
+            adapter.data = item.productsCards
             binding.executePendingBindings()
         }
 

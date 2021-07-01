@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.R
 import com.example.myapplication.adapters.CategoriesCardListAdapter
@@ -31,7 +32,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
+        binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_home, container, false)
         binding.homeRecyclerView.adapter = categoriesAdapter
         return binding.root
     }
@@ -48,8 +49,12 @@ class HomeFragment : Fragment() {
             }
         })//Creation des chips
 
-        viewModel.categories.observe(viewLifecycleOwner, {
+        viewModel.productHolderList.observe(viewLifecycleOwner, {
             categoriesAdapter.data = it
+        })
+
+        viewModel.homeVisibility.observe(viewLifecycleOwner, {
+            binding.visibilty = it
         })
     }
 }
