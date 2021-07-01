@@ -2,14 +2,13 @@ package com.example.myapplication.viewmodels
 
 import android.util.Log
 import android.view.View
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.myapplication.model.*
 import com.example.myapplication.repositroies.FoodRepository
 import com.example.myapplication.utils.chipsData
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
+import java.util.*
 
 class HomeFragmentViewModel: ViewModel() {
 
@@ -23,22 +22,24 @@ class HomeFragmentViewModel: ViewModel() {
     val productHolderList: LiveData<List<ProductHolder>>
         get() = _productHolderList
 
-    private val _homeVisibility = MutableLiveData<HomeVisibilty>()
-    val homeVisibility: LiveData<HomeVisibilty>
+    private val _homeVisibility = MutableLiveData<HomeVisibility>()
+    val homeVisibility: LiveData<HomeVisibility>
         get() = _homeVisibility
 
     init {
         _chips.value = chipsData
-        _homeVisibility.value = HomeVisibilty(
-            View.GONE,
-            View.VISIBLE
-        )
         viewModelScope.launch {
+            Log.i("TAG", "Launched Init")
             getData()
         }
     }
 
-    private fun getData(){
+    fun getData(){
+        _homeVisibility.value = HomeVisibility(
+            View.GONE,
+            View.VISIBLE,
+            View.GONE,
+        )
         val newData = mutableListOf<ProductHolder>()
         viewModelScope.launch {
             try {
@@ -46,56 +47,86 @@ class HomeFragmentViewModel: ViewModel() {
                 val categories = repository.getAllCategories()
                 for (category in categories) {//n*n request forEach category we have n product!!! ==> Disaster
                     //request to get All productNetworkModel for each category
-                    if(category.name.isNotEmpty()){
+                    /*if(category.name.isNotEmpty()){
                         val products = repository.getAllProductByCategory(category.name).toMutableList()
                         val productsCards = mutableListOf<ProductCard>()
                         //forEach product we sent a request to get ProductInfo
                         products.forEachIndexed { _, product ->
                             val productCard = repository.getProductInfo(product.id)
                             productsCards.add(productCard)
-                        }
-                        newData.add(
-                            ProductHolder(
-                                category,
-                                products,
-                                productsCards
-                            )
+                        }*/
+                    newData.add(
+                        ProductHolder(
+                            category,
+                            listOf(),
+                            listOf()
                         )
-                        _productHolderList.value = newData
-                        _homeVisibility.value = HomeVisibilty(
-                            View.VISIBLE,
-                            View.GONE
-                        )
-                    }
+                    )
+                    _productHolderList.value = newData
+                    _homeVisibility.value = HomeVisibility(
+                        View.VISIBLE,
+                        View.GONE,
+                        View.GONE
+                    )
                 }
 
+            }catch (e: UnknownHostException){
+                Log.i("TAG", "Error: $e")
+                _homeVisibility.value = HomeVisibility(
+                    View.GONE,
+                    View.GONE,
+                    View.VISIBLE
+                )
             }catch (e: Exception){
-                Log.i("TAG", "$e")
+                Log.i("TAG", "Error: $e")
             }
         }
     }
 
+    fun getProducts(category: Category, pos: Int){
+        val newData = mutableListOf<ProductHolder>()
+        _productHolderList.value?.let { newData.addAll(it) }
+        viewModelScope.launch {
+            val products = repository.getAllProductByCategory(category.name)
+            Log.i("TAG", "GETTING PRODUCT List for category:${category.name} $products")
+            newData[pos] = ProductHolder(
+                newData[pos].category,
+                products,
+                List(products.size){
+                    ProductCard(
+                    "",
+                    "placeHolder",
+                    0.0
+                )
+                }
+            )
+            _productHolderList.value = newData
+        }
+    }
 
-    //TODO("remove those blocking Thread Functions")
-    /*fun getAllProducts(name: String):List<Product> = runBlocking {
+    fun getProduct(posProductHolder: Int, posProduct: Int){
         try {
-            val listProduct: List<Product>
-            withContext(Dispatchers.IO){
-                listProduct = repository.getAllProductByCategory(name)
+            val newData = mutableListOf<ProductHolder>()
+            _productHolderList.value?.let { newData.addAll(it) }
+
+            val productInfoList = mutableListOf<ProductCard>()
+            _productHolderList.value?.get(posProductHolder)
+                ?.let { productInfoList.addAll(it.productsCards) }
+
+            viewModelScope.launch {
+                val product = newData[posProductHolder].products[posProduct]
+                Log.i("TAG", "GETTING PRODUCT: $product")
+                val productCard = repository.getProductInfo(product.id)
+                productInfoList[posProduct] = productCard
+                newData[posProductHolder] = ProductHolder(
+                    newData[posProductHolder].category,
+                    newData[posProductHolder].products,
+                    productInfoList
+                )
+                _productHolderList.value = newData
             }
-            listProduct
-        }catch (e:Exception){
-            listOf()
+        }catch (e: Exception){
+            Log.i("TAG", "$e")
         }
     }
-
-    fun getProductInfo(id: Int):ProductCard = runBlocking(Dispatchers.IO) {
-            repository.getProductInfo(id)
-    }
-
-
-    private suspend fun getCategoriesInitData(){
-        val categories =  repository.getAllCategories()
-        _categories.value = categories
-    }*/
 }

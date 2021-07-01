@@ -1,9 +1,7 @@
 package com.example.myapplication.model
 
-import android.opengl.Visibility
-
-data class HomeVisibilty(
+data class HomeVisibility(
     val recyclerVisibility: Int,
     val spinnerVisibility: Int,
-
+    val error: Int,
 )
