@@ -17,9 +17,6 @@ class ProductListAdapter: RecyclerView.Adapter<ProductListAdapter.ViewHolder>() 
 
     class ViewHolder(private val binding: ProductCardBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(item: ProductCard){
-            //TODO("Send GET request to get the product related to provided ID")
-            //TODO("Change this too you little shit!!!")
-            //binding.product = HomeFragmentViewModel().getProductInfo(item.id)
             binding.product = item
             binding.executePendingBindings()
         }

@@ -9,7 +9,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.myapplication.model.*
 import com.example.myapplication.repositroies.FoodRepository
 import com.example.myapplication.utils.chipsData
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 
 class HomeFragmentViewModel: ViewModel() {
 
@@ -23,24 +25,31 @@ class HomeFragmentViewModel: ViewModel() {
     val productHolderList: LiveData<List<ProductHolder>>
         get() = _productHolderList
 
-    private val _homeVisibility = MutableLiveData<HomeVisibilty>()
-    val homeVisibility: LiveData<HomeVisibilty>
+    private val _homeVisibility = MutableLiveData<HomeVisibility>()
+    val homeVisibility: LiveData<HomeVisibility>
         get() = _homeVisibility
+
+    private val _naviagteToDestination = MutableLiveData<Boolean>()
+    val navigateToDestination : LiveData<Boolean>
+        get() = _naviagteToDestination
 
     init {
         _chips.value = chipsData
-        _homeVisibility.value = HomeVisibilty(
-            View.GONE,
-            View.VISIBLE
-        )
         viewModelScope.launch {
             getData()
         }
     }
 
-    private fun getData(){
+     fun getData(){
+         _homeVisibility.postValue(
+             HomeVisibility(
+                 View.GONE,
+                 View.VISIBLE,
+                 View.GONE
+             )
+         )
         val newData = mutableListOf<ProductHolder>()
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO){
             try {
                 //Request to get all Categories
                 val categories = repository.getAllCategories()
@@ -61,20 +70,29 @@ class HomeFragmentViewModel: ViewModel() {
                                 productsCards
                             )
                         )
-                        _productHolderList.value = newData
-                        _homeVisibility.value = HomeVisibilty(
+                    }
+                    _productHolderList.postValue(newData)
+                    _homeVisibility.postValue(
+                        HomeVisibility(
                             View.VISIBLE,
+                            View.GONE,
                             View.GONE
                         )
-                    }
+                    )
                 }
-
+            }catch (e: UnknownHostException){
+                _homeVisibility.postValue(
+                    HomeVisibility(
+                        View.GONE,
+                        View.GONE,
+                        View.VISIBLE
+                    )
+                )
             }catch (e: Exception){
                 Log.i("TAG", "$e")
             }
         }
     }
-
 
     //TODO("remove those blocking Thread Functions")
     /*fun getAllProducts(name: String):List<Product> = runBlocking {
@@ -98,4 +116,31 @@ class HomeFragmentViewModel: ViewModel() {
         val categories =  repository.getAllCategories()
         _categories.value = categories
     }*/
+
+    fun addFavorites(posHolder: Int, posProduct: Int){
+        try {
+            val newData = mutableListOf<ProductHolder>()
+            _productHolderList.value?.let { newData.addAll(it) }
+            val newProductCard = with(newData[posHolder].productsCards[posProduct]){
+                ProductCard(
+                    this.imgUrl,
+                    this.name,
+                    this.price,
+                    true
+                )
+            }
+            newData[posHolder].productsCards[posProduct] = newProductCard
+            _productHolderList.value = newData
+        }catch (e: Exception){
+            Log.i("TAG", "$e")
+        }
+    }
+
+    fun navigate(){
+        _naviagteToDestination.value = true
+    }
+
+    fun navigationDone(){
+        _naviagteToDestination.value = false
+    }
 }

@@ -78,73 +78,85 @@ val categories = listOf(
 )
 
 
-val products = mapOf<String, List<ProductCard>>(
+val products = mapOf(
     "Organic Fruits" to listOf(
         ProductCard(
             "url",
             "Strawberry",
-            300.0
+            300.0,
+            false
         ),
         ProductCard(
             "url",
             "Oranges",
-            120.0
+            120.0,
+            false
         ),
         ProductCard(
             "url",
             "Grapes",
-            160.0
+            160.0,
+            false
         )
     ),
     "Mixed Fruit Pack" to listOf(
         ProductCard(
             "url",
             "Multi Fruits Pack",
-            350.0
+            350.0,
+            false
         ),
         ProductCard(
             "url",
             "Paper Fruits Pack",
-            230.0
+            230.0,
+            false
         ),
         ProductCard(
             "url",
             "Tropicana",
-            140.0
+            140.0,
+            false
         )
     ),
     "Stone Fruits" to listOf(
         ProductCard(
             "url",
             "Nectarines",
-            250.0
+            250.0,
+            false
         ),
         ProductCard(
             "url",
             "Apricots",
-            180.0
+            180.0,
+            false
         ),
         ProductCard(
             "url",
             "Peaches",
-            100.0
+            100.0,
+            false
         )
     ),
     "Melons" to listOf(
         ProductCard(
             "url",
             "Nectarines",
-            250.0
+            250.0,
+            false
         ),
         ProductCard(
             "url",
             "Apricots",
-            180.0
+            180.0,
+            false
         ),
         ProductCard(
             "url",
             "Peaches",
-            100.0
+            100.0,
+            false
         )
     )
 )

@@ -1,19 +1,16 @@
 package com.example.myapplication.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ProductListByCategorieBinding
 import com.example.myapplication.model.ProductHolder
 
-class CategoriesCardListAdapter: RecyclerView.Adapter<CategoriesCardListAdapter.ViewHolder>() {
-
-    var data = listOf<ProductHolder>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+class CategoriesCardListAdapter(val clickLListener: OnProductClickListener): ListAdapter<ProductHolder, CategoriesCardListAdapter.ViewHolder>(
+    CategoriesCardDiffCallBacks()
+){
 
     class ViewHolder(private val binding: ProductListByCategorieBinding):RecyclerView.ViewHolder(binding.root){
 
@@ -21,10 +18,7 @@ class CategoriesCardListAdapter: RecyclerView.Adapter<CategoriesCardListAdapter.
 
         fun bind(item: ProductHolder){
             binding.category = item.category
-            //still in test phase
             binding.productList.adapter = adapter
-            //TODO("Change this you motherfucker!!!!")
-            //adapter.data = HomeFragmentViewModel().getAllProducts(item.name)
             adapter.data = item.productsCards
             binding.executePendingBindings()
         }
@@ -43,9 +37,21 @@ class CategoriesCardListAdapter: RecyclerView.Adapter<CategoriesCardListAdapter.
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = data[position]
+        val item = getItem(position)
         holder.bind(item)
     }
+}
 
-    override fun getItemCount(): Int = data.size
+class CategoriesCardDiffCallBacks: DiffUtil.ItemCallback<ProductHolder>(){
+    override fun areItemsTheSame(oldItem: ProductHolder, newItem: ProductHolder): Boolean {
+        return oldItem.category == newItem.category
+    }
+
+    override fun areContentsTheSame(oldItem: ProductHolder, newItem: ProductHolder): Boolean {
+        return oldItem == newItem
+    }
+}
+
+class OnProductClickListener(val callBack: () -> Unit){
+    fun onClick() = callBack()
 }

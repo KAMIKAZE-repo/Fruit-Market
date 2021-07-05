@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.example.myapplication.R
 import com.example.myapplication.adapters.CategoriesCardListAdapter
+import com.example.myapplication.adapters.OnProductClickListener
 import com.example.myapplication.databinding.FragmentHomeBinding
 import com.example.myapplication.utils.categories
 import com.example.myapplication.viewmodels.HomeFragmentViewModel
@@ -23,7 +25,9 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        categoriesAdapter = CategoriesCardListAdapter()
+        categoriesAdapter = CategoriesCardListAdapter(OnProductClickListener {
+            viewModel.navigate()
+        })
         viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
     }
 
@@ -34,6 +38,9 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_home, container, false)
         binding.homeRecyclerView.adapter = categoriesAdapter
+        binding.retry.setOnClickListener {
+            viewModel.getData()
+        }
         return binding.root
     }
 
@@ -50,11 +57,19 @@ class HomeFragment : Fragment() {
         })//Creation des chips
 
         viewModel.productHolderList.observe(viewLifecycleOwner, {
-            categoriesAdapter.data = it
+            categoriesAdapter.submitList(it)
         })
 
         viewModel.homeVisibility.observe(viewLifecycleOwner, {
             binding.visibilty = it
+        })
+
+        viewModel.navigateToDestination.observe(viewLifecycleOwner, {
+            if(it){
+                val mainNavController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView)
+                mainNavController.navigate(NavHostFragmentDirections.actionNavHostFragmentToProductDetailsFragment())
+                viewModel.navigationDone()
+            }
         })
     }
 }

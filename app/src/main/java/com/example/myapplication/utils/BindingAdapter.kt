@@ -1,6 +1,6 @@
 package com.example.myapplication.utils
 
-import android.net.Uri
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
@@ -29,4 +29,9 @@ fun loadUrlImg(imageView: ImageView, url: String?){
     if(url == null){
         imageView.setImageResource(R.drawable.onboard_img_1)
     }
+}
+
+@BindingAdapter("setSelected")
+fun setSelected(view: View, state: Boolean){
+    view.isSelected = state
 }
