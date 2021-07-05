@@ -129,16 +129,26 @@ class HomeFragmentViewModel: ViewModel() {
     fun addFavorites(posHolder: Int, posProduct: Int){
         try {
             val newData = mutableListOf<ProductHolder>()
+
             _productHolderList.value?.let { newData.addAll(it) }
-            val newProductCard = with(newData[posHolder].productsCards[posProduct]){
-                ProductCard(
-                    this.imgUrl,
-                    this.name,
-                    this.price,
-                    true
-                )
-            }
-            newData[posHolder].productsCards[posProduct] = newProductCard
+
+            val newProductCard = ProductCard(
+                newData[posHolder].productsCards[posProduct].imgUrl,
+                newData[posHolder].productsCards[posProduct].name,
+                newData[posHolder].productsCards[posProduct].price,
+                true
+            )
+
+            val listProductCard = mutableListOf<ProductCard>()
+            listProductCard.addAll(newData[posHolder].productsCards)
+            listProductCard[posProduct] = newProductCard
+
+            newData[posHolder] = ProductHolder(
+                newData[posHolder].category,
+                newData[posHolder].products,
+                listProductCard
+            )
+
             //For testing
             favoriteProducts.add(
                 FavoriteProduct(
