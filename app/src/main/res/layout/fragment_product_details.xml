@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="product"
+            type="com.example.myapplication.model.ProductCard" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,6 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
+                loadImageUrl="@{product.imgUrl}"
                 tools:src="@tools:sample/avatars" />
         </androidx.cardview.widget.CardView>
 
@@ -49,7 +52,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Grapes"
+            android:text="@{product.name}"
+            tools:text="Grapes"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/black"
@@ -95,7 +99,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:text="Button"
+            android:text="Buy Now"
+            android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -104,7 +109,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="TextView"
+            price="@{product.price}"
+            tools:text="$ 4.5Per/Kg"
             android:textSize="17sp"
             android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@+id/button6"

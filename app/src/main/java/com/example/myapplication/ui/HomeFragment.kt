@@ -1,19 +1,17 @@
 package com.example.myapplication.ui
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.myapplication.R
 import com.example.myapplication.adapters.CategoriesCardListAdapter
 import com.example.myapplication.adapters.OnProductClickListener
 import com.example.myapplication.databinding.FragmentHomeBinding
-import com.example.myapplication.utils.categories
 import com.example.myapplication.viewmodels.HomeFragmentViewModel
 import com.google.android.material.chip.Chip
 
@@ -25,9 +23,14 @@ class HomeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        categoriesAdapter = CategoriesCardListAdapter(OnProductClickListener {
-            viewModel.navigate()
-        })
+        categoriesAdapter = CategoriesCardListAdapter(OnProductClickListener(
+            {
+                product ->  viewModel.navigate(product)
+            },
+            {
+                posHolder, posProduct -> viewModel.addFavorites(posHolder, posProduct)
+            }
+        ))
         viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
     }
 
@@ -41,6 +44,7 @@ class HomeFragment : Fragment() {
         binding.retry.setOnClickListener {
             viewModel.getData()
         }
+        binding.lifecycleOwner = this
         return binding.root
     }
 
@@ -65,9 +69,9 @@ class HomeFragment : Fragment() {
         })
 
         viewModel.navigateToDestination.observe(viewLifecycleOwner, {
-            if(it){
+            if(it != null){
                 val mainNavController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView)
-                mainNavController.navigate(NavHostFragmentDirections.actionNavHostFragmentToProductDetailsFragment())
+                mainNavController.navigate(NavHostFragmentDirections.actionNavHostFragmentToProductDetailsFragment(it))
                 viewModel.navigationDone()
             }
         })

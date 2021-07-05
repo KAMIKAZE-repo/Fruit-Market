@@ -1,25 +1,28 @@
 package com.example.myapplication.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SimpleAdapter
-import com.example.myapplication.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.adapters.FavoritesListAdapter
+import com.example.myapplication.adapters.OnAmountClickListener
 import com.example.myapplication.databinding.FragmentFavoritesBinding
-import com.example.myapplication.model.ProductCard
-import com.example.myapplication.utils.products
+import com.example.myapplication.utils.favoriteProducts
+import com.example.myapplication.viewmodels.FavoritesViewModel
 
 class FavoritesFragment : Fragment() {
     private lateinit var binding: FragmentFavoritesBinding
     private lateinit var adapter: FavoritesListAdapter
+    private lateinit var viewModel: FavoritesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = FavoritesListAdapter()
-        adapter.data = products["Organic Fruits"]!!
+        adapter = FavoritesListAdapter(OnAmountClickListener {
+            value, pos -> viewModel.updateAmount(value, pos)
+        })
+        viewModel = ViewModelProvider(this).get(FavoritesViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -30,5 +33,12 @@ class FavoritesFragment : Fragment() {
         binding =  FragmentFavoritesBinding.inflate(layoutInflater,  container, false)
         binding.favList.adapter = adapter
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.listFavorite.observe(viewLifecycleOwner, {
+            adapter.submitList(it)
+        })
     }
 }

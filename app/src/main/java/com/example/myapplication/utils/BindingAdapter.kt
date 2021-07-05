@@ -35,3 +35,8 @@ fun loadUrlImg(imageView: ImageView, url: String?){
 fun setSelected(view: View, state: Boolean){
     view.isSelected = state
 }
+
+@BindingAdapter("set_amount")
+fun TextView.setAmount(amount: Int){
+    text = "$amount"
+}

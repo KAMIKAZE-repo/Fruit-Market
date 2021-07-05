@@ -6,34 +6,36 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.ProductListByCategorieBinding
+import com.example.myapplication.model.ProductCard
 import com.example.myapplication.model.ProductHolder
 
 class CategoriesCardListAdapter(val clickLListener: OnProductClickListener): ListAdapter<ProductHolder, CategoriesCardListAdapter.ViewHolder>(
     CategoriesCardDiffCallBacks()
 ){
 
-    class ViewHolder(private val binding: ProductListByCategorieBinding):RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(private val binding: ProductListByCategorieBinding):RecyclerView.ViewHolder(binding.root){
 
-        private val adapter = ProductListAdapter()
+        private val adapter = ProductListAdapter(OnItemClickListener(
+            {
+                product -> clickLListener.onClick(product)
+            },
+            {
+                pos -> clickLListener.onFavClick(layoutPosition, pos)
+            }
+        ))
 
         fun bind(item: ProductHolder){
             binding.category = item.category
             binding.productList.adapter = adapter
-            adapter.data = item.productsCards
+            adapter.submitList(item.productsCards)
             binding.executePendingBindings()
-        }
-
-        companion object{
-            fun from(parent: ViewGroup): ViewHolder{
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ProductListByCategorieBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding)
-            }
         }
 
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = ProductListByCategorieBinding.inflate(layoutInflater, parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -52,6 +54,10 @@ class CategoriesCardDiffCallBacks: DiffUtil.ItemCallback<ProductHolder>(){
     }
 }
 
-class OnProductClickListener(val callBack: () -> Unit){
-    fun onClick() = callBack()
+class OnProductClickListener(
+    val callBack: (product: ProductCard) -> Unit,
+    val favCallBack: (posHolder: Int, posProduct: Int) -> Unit
+){
+    fun onClick(product: ProductCard) = callBack(product)
+    fun onFavClick(posHolder: Int, posProduct: Int) = favCallBack(posHolder, posProduct)
 }

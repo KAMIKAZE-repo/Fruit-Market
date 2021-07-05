@@ -49,6 +49,10 @@
     <fragment
         android:id="@+id/productDetailsFragment"
         android:name="com.example.myapplication.ui.ProductDetailsFragment"
-        android:label="fragment_product_details"
-        tools:layout="@layout/fragment_product_details" />
+        android:label="Details"
+        tools:layout="@layout/fragment_product_details" >
+        <argument
+            android:name="product"
+            app:argType="com.example.myapplication.model.ProductCard" />
+    </fragment>
 </navigation>

@@ -12,9 +12,16 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentProductDetailsBinding
+import com.example.myapplication.model.ProductCard
 
 class ProductDetailsFragment : Fragment() {
     private lateinit var binding: FragmentProductDetailsBinding
+    private lateinit var product: ProductCard
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        product = ProductDetailsFragmentArgs.fromBundle(requireArguments()).product
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -22,6 +29,7 @@ class ProductDetailsFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding  = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_product_details, container, false)
+        binding.product = product
         return binding.root
     }
 

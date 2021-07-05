@@ -6,9 +6,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.model.*
+import com.example.myapplication.model.FavoriteProduct
+import com.example.myapplication.model.HomeVisibility
+import com.example.myapplication.model.ProductCard
+import com.example.myapplication.model.ProductHolder
 import com.example.myapplication.repositroies.FoodRepository
 import com.example.myapplication.utils.chipsData
+import com.example.myapplication.utils.favoriteProducts
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
@@ -29,12 +33,17 @@ class HomeFragmentViewModel: ViewModel() {
     val homeVisibility: LiveData<HomeVisibility>
         get() = _homeVisibility
 
-    private val _naviagteToDestination = MutableLiveData<Boolean>()
-    val navigateToDestination : LiveData<Boolean>
-        get() = _naviagteToDestination
+    private val _navigateToDestination = MutableLiveData<ProductCard>()
+    val navigateToDestination : LiveData<ProductCard>
+        get() = _navigateToDestination
 
     init {
         _chips.value = chipsData
+        _homeVisibility.value = HomeVisibility(
+                View.GONE,
+                View.VISIBLE,
+                View.GONE
+        )
         viewModelScope.launch {
             getData()
         }
@@ -71,15 +80,15 @@ class HomeFragmentViewModel: ViewModel() {
                             )
                         )
                     }
-                    _productHolderList.postValue(newData)
-                    _homeVisibility.postValue(
-                        HomeVisibility(
-                            View.VISIBLE,
-                            View.GONE,
-                            View.GONE
-                        )
-                    )
                 }
+                _productHolderList.postValue(newData)
+                _homeVisibility.postValue(
+                    HomeVisibility(
+                        View.VISIBLE,
+                        View.GONE,
+                        View.GONE
+                    )
+                )
             }catch (e: UnknownHostException){
                 _homeVisibility.postValue(
                     HomeVisibility(
@@ -130,17 +139,23 @@ class HomeFragmentViewModel: ViewModel() {
                 )
             }
             newData[posHolder].productsCards[posProduct] = newProductCard
+            //For testing
+            favoriteProducts.add(
+                FavoriteProduct(
+                    newProductCard
+                ))
+            //////////////////
             _productHolderList.value = newData
         }catch (e: Exception){
             Log.i("TAG", "$e")
         }
     }
 
-    fun navigate(){
-        _naviagteToDestination.value = true
+    fun navigate(product: ProductCard){
+        _navigateToDestination.value = product
     }
 
     fun navigationDone(){
-        _naviagteToDestination.value = false
+        _navigateToDestination.value = null
     }
 }

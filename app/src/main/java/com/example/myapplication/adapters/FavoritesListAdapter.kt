@@ -2,22 +2,23 @@ package com.example.myapplication.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.FavoriteOrderLayoutBinding
-import com.example.myapplication.model.ProductCard
+import com.example.myapplication.model.FavoriteProduct
 
-class FavoritesListAdapter: RecyclerView.Adapter<FavoritesListAdapter.ViewHolder>() {
-
-    var data = listOf<ProductCard>()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+class FavoritesListAdapter(private val amountClickListener: OnAmountClickListener): ListAdapter<FavoriteProduct, FavoritesListAdapter.ViewHolder>(
+    FavoriteListDiffCallBacks()
+) {
 
     class ViewHolder(private val binding: FavoriteOrderLayoutBinding):RecyclerView.ViewHolder(binding.root){
 
-        fun bind(item: ProductCard){
-            binding.product = item
+        fun bind(item: FavoriteProduct, amountClickListener: OnAmountClickListener, position: Int){
+            binding.product = item.productCard
+            binding.amount = item.amount
+            binding.position = position
+            binding.amountClickListener = amountClickListener
             binding.executePendingBindings()
         }
 
@@ -35,10 +36,21 @@ class FavoritesListAdapter: RecyclerView.Adapter<FavoritesListAdapter.ViewHolder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = data[position]
-        holder.bind(item)
+        val item = getItem(position)
+        holder.bind(item, amountClickListener, position)
+    }
+}
+
+class FavoriteListDiffCallBacks: DiffUtil.ItemCallback<FavoriteProduct>(){
+    override fun areItemsTheSame(oldItem: FavoriteProduct, newItem: FavoriteProduct): Boolean {
+        return oldItem.productCard == newItem.productCard
     }
 
-    override fun getItemCount(): Int = data.size
+    override fun areContentsTheSame(oldItem: FavoriteProduct, newItem: FavoriteProduct): Boolean {
+        return oldItem == newItem
+    }
+}
 
+class OnAmountClickListener(val amountCallBack: (value: Int, position: Int) -> Unit){
+    fun onCLick(value: Int, pos: Int) = amountCallBack(value, pos)
 }

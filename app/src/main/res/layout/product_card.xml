@@ -7,12 +7,16 @@
         <variable
             name="product"
             type="com.example.myapplication.model.ProductCard" />
+        <variable
+            name="Onclick"
+            type="com.example.myapplication.adapters.OnItemClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp">
+        android:layout_marginEnd="20dp"
+        android:onClick="@{() -> Onclick.onCLick(product)}">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/imageView3"
