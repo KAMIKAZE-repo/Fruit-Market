@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.FavoriteOrderLayoutBinding
 import com.example.myapplication.model.FavoriteProduct
+import com.example.myapplication.model.ProductCard
 
 class FavoritesListAdapter(private val amountClickListener: OnAmountClickListener): ListAdapter<FavoriteProduct, FavoritesListAdapter.ViewHolder>(
     FavoriteListDiffCallBacks()
@@ -51,6 +52,10 @@ class FavoriteListDiffCallBacks: DiffUtil.ItemCallback<FavoriteProduct>(){
     }
 }
 
-class OnAmountClickListener(val amountCallBack: (value: Int, position: Int) -> Unit){
+class OnAmountClickListener(
+    val amountCallBack: (value: Int, position: Int) -> Unit,
+    val addProduct: (product: ProductCard, amount: Int) -> Unit
+){
     fun onCLick(value: Int, pos: Int) = amountCallBack(value, pos)
+    fun onClickAdd(product: ProductCard, amount: Int) = addProduct(product, amount)
 }

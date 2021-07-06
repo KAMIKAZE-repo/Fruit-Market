@@ -19,10 +19,13 @@ class FavoritesFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        adapter = FavoritesListAdapter(OnAmountClickListener {
+        adapter = FavoritesListAdapter(OnAmountClickListener ({
             value, pos -> viewModel.updateAmount(value, pos)
-        })
-        viewModel = ViewModelProvider(this).get(FavoritesViewModel::class.java)
+        },{
+            product, amount -> viewModel.addToBuy(product, amount)
+        }))
+        val viewModelFactory = FavoritesViewModel.Factory(requireActivity().application)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(FavoritesViewModel::class.java)
     }
 
     override fun onCreateView(

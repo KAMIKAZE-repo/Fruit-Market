@@ -14,13 +14,13 @@ data class ProductCard(
 ):Parcelable
 
 
-fun ProductCard.toDataBaseModel():ProductEntity{
+fun ProductCard.toDataBaseModel(amount: Int = 1):ProductEntity{
     return ProductEntity(
         0,
         name,
         price,
         offer,
         imgUrl,
-        1
+        amount
     )
 }
