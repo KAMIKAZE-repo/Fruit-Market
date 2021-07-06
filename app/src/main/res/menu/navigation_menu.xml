@@ -6,7 +6,7 @@
         android:icon="@drawable/home"
         />
     <item
-        android:id="@+id/fragmnet2"
+        android:id="@+id/shoppingCartFragment"
         android:title="Shopping Cart"
         android:icon="@drawable/shopping_cart"
         />

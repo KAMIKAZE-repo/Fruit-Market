@@ -1,6 +1,5 @@
 package com.example.myapplication.repositroies
 
-import androidx.lifecycle.LiveData
 import com.example.myapplication.database.ProductDataBase
 import com.example.myapplication.database.ProductEntity
 import kotlinx.coroutines.Dispatchers
@@ -8,9 +7,9 @@ import kotlinx.coroutines.withContext
 
 class FoodDatabaseRepo(private val dataSource: ProductDataBase){
 
-    fun getAllProductToBuy(): LiveData<List<ProductEntity>> {
-        return dataSource.productDao.getAllProductsToBuy()
-    }
+
+    val productsToBuy by lazy {dataSource.productDao.getAllProductsToBuy()}
+
 
     suspend fun addNewProductToBy(product: ProductEntity){
         withContext(Dispatchers.IO){
@@ -19,10 +18,14 @@ class FoodDatabaseRepo(private val dataSource: ProductDataBase){
     }
 
     suspend fun updateProductAmount(product: ProductEntity){
-        dataSource.productDao.updateAmount(product)
+        withContext(Dispatchers.IO){
+            dataSource.productDao.updateAmount(product)
+        }
     }
 
     suspend fun deleteProductOrder(product: ProductEntity){
-        dataSource.productDao.deleteProduct(product)
+        withContext(Dispatchers.IO){
+            dataSource.productDao.deleteProduct(product)
+        }
     }
 }
