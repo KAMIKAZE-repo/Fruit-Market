@@ -70,6 +70,7 @@ class HomeFragmentViewModel: ViewModel() {
                         //forEach product we sent a request to get ProductInfo
                         products.forEachIndexed { _, product ->
                             val productCard = repository.getProductInfo(product.id)
+                            productCard.offer = category.offer
                             productsCards.add(productCard)
                         }
                         newData.add(
@@ -136,7 +137,8 @@ class HomeFragmentViewModel: ViewModel() {
                 newData[posHolder].productsCards[posProduct].imgUrl,
                 newData[posHolder].productsCards[posProduct].name,
                 newData[posHolder].productsCards[posProduct].price,
-                true
+                true,
+                newData[posHolder].category.offer,
             )
 
             val listProductCard = mutableListOf<ProductCard>()

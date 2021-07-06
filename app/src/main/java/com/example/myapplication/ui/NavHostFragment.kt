@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
@@ -29,5 +30,14 @@ class NavHostFragment : Fragment() {
         val host: NavHostFragment = childFragmentManager.findFragmentById(R.id.home_fragment_container) as NavHostFragment
         binding.bottomNavView.setupWithNavController(host.navController)
         NavigationUI.setupWithNavController(binding.toolbar, host.navController)
+        binding.toolbar.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.account -> {
+                    Navigation.findNavController(view).navigate(NavHostFragmentDirections.actionNavHostFragmentToAccountFragment2())
+                    true
+                }
+                else -> false
+            }
+        }
     }
 }

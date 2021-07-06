@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/account"
+        android:title="@string/my_account"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/account_circle"/>
+
     <item android:id="@+id/notification"
-        android:title="notification"
+        android:title="@string/notification"
         app:showAsAction="always"
         android:icon="@drawable/notifications"
         />
+
 </menu>

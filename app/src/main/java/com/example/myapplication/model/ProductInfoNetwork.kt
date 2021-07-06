@@ -16,6 +16,7 @@ fun ProductInfoNetwork.toDomainModel():ProductCard{
         "https://api.predic8.de$photoUrl" ?: "",
         name,
         price,
-        false
+        false,
+        0
     )
 }
