@@ -24,7 +24,6 @@ class OnBoardingFragment : Fragment() {
 
     private var doppelgangerPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
-            Log.i("TAG", "Selected position: $position")
             viewModel.changePage(position)
             viewModel.updateState(position)
         }

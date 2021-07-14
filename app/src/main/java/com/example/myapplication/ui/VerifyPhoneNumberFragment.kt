@@ -27,7 +27,7 @@ class VerifyPhoneNumberFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentVerifyPhoneNumberBinding.inflate(layoutInflater, container, false)
         binding.button4.setOnClickListener{
-            findNavController().navigate(VerifyPhoneNumberFragmentDirections.actionVerifyPhoneNumberFragmentToNavHostFragment())
+            findNavController().navigate(VerifyPhoneNumberFragmentDirections.actionVerifyPhoneNumberFragmentToNavHostFragment(R.id.homeFragment2))
         }
         return binding.root
     }

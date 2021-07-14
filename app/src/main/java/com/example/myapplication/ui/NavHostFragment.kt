@@ -16,6 +16,11 @@ import com.example.myapplication.databinding.FragmentNavHostBinding
 class NavHostFragment : Fragment() {
     private lateinit var binding : FragmentNavHostBinding
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        //position = NavHostFragmentArgs.fromBundle(requireArguments()).bottomPosition
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

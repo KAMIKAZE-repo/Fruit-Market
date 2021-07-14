@@ -19,4 +19,9 @@
         android:id="@+id/shoppingCartFragment"
         android:name="com.example.myapplication.ui.ShoppingCartFragment"
         android:label="Shopping Cart" />
+    <fragment
+        android:id="@+id/myOrdersFragment"
+        android:name="com.example.myapplication.ui.MyOrdersFragment"
+        android:label="My Orders"
+        tools:layout="@layout/fragment_my_orders" />
 </navigation>
