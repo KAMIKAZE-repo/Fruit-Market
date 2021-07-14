@@ -7,6 +7,8 @@ import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
+import com.example.myapplication.database.ProductEntity
+import kotlin.math.roundToLong
 
 @BindingAdapter("offer")
 fun TextView.setOffer(offer: Int){
@@ -39,4 +41,10 @@ fun setSelected(view: View, state: Boolean){
 @BindingAdapter("set_amount")
 fun TextView.setAmount(amount: Int){
     text = "$amount"
+}
+
+@BindingAdapter("saved")
+fun TextView.savedMoney(product: ProductEntity){
+    val saved = product.price - (product.price * (product.offer/100)).roundToLong()
+    text = "its $saved saved"
 }
