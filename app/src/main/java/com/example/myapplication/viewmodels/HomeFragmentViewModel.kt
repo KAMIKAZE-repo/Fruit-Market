@@ -6,10 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.model.FavoriteProduct
-import com.example.myapplication.model.HomeVisibility
-import com.example.myapplication.model.ProductCard
-import com.example.myapplication.model.ProductHolder
+import com.example.myapplication.model.*
 import com.example.myapplication.repositroies.FoodRepository
 import com.example.myapplication.utils.chipsData
 import com.example.myapplication.utils.favoriteProducts
@@ -37,19 +34,29 @@ class HomeFragmentViewModel: ViewModel() {
     val navigateToDestination : LiveData<ProductCard>
         get() = _navigateToDestination
 
+    private val _navigateToCategory = MutableLiveData<Category>()
+    val navigateToCategory : LiveData<Category>
+        get() = _navigateToCategory
+
     init {
+        Log.i("TAG", "ViewModel Created")
         _chips.value = chipsData
         _homeVisibility.value = HomeVisibility(
                 View.GONE,
                 View.VISIBLE,
                 View.GONE
         )
+        getData()
+
+    }
+
+    fun getData(){
         viewModelScope.launch {
-            getData()
+            _getData()//TODO("Move it from here")
         }
     }
 
-     fun getData(){
+     private fun _getData(){
          _homeVisibility.postValue(
              HomeVisibility(
                  View.GONE,
@@ -65,12 +72,14 @@ class HomeFragmentViewModel: ViewModel() {
                 for (category in categories) {//n*n request forEach category we have n product!!! ==> Disaster
                     //request to get All productNetworkModel for each category
                     if(category.name.isNotEmpty()){
-                        val products = repository.getAllProductByCategory(category.name).toMutableList()
+                        var products = repository.getAllProductByCategory(category.name).toMutableList()
+                        products = products.subList(0, if(products.size > 10) 10 else products.size)//Show only 10 elements
                         val productsCards = mutableListOf<ProductCard>()
                         //forEach product we sent a request to get ProductInfo
                         products.forEachIndexed { _, product ->
                             val productCard = repository.getProductInfo(product.id)
                             productCard.offer = category.offer
+                            productCard.productId = product.id.toLong()
                             productsCards.add(productCard)
                         }
                         newData.add(
@@ -139,6 +148,7 @@ class HomeFragmentViewModel: ViewModel() {
                 newData[posHolder].productsCards[posProduct].price,
                 true,
                 newData[posHolder].category.offer,
+                newData[posHolder].productsCards[posProduct].productId
             )
 
             val listProductCard = mutableListOf<ProductCard>()
@@ -170,4 +180,15 @@ class HomeFragmentViewModel: ViewModel() {
     fun navigationDone(){
         _navigateToDestination.value = null
     }
+
+
+    fun navigateCategory(category: Category){
+        _navigateToCategory.value = category
+    }
+
+    fun navigationCategoryDone(){
+        _navigateToCategory.value = null
+    }
+
+
 }

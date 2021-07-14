@@ -29,6 +29,9 @@ class HomeFragment : Fragment() {
             },
             {
                 posHolder, posProduct -> viewModel.addFavorites(posHolder, posProduct)
+            },
+            {
+                category ->  viewModel.navigateCategory(category)
             }
         ))
         viewModel = ViewModelProvider(this).get(HomeFragmentViewModel::class.java)
@@ -75,5 +78,15 @@ class HomeFragment : Fragment() {
                 viewModel.navigationDone()
             }
         })
+
+        viewModel.navigateToCategory.observe(viewLifecycleOwner, {
+            if(it != null){
+                val mainNavController = Navigation.findNavController(requireActivity(), R.id.fragmentContainerView)
+                mainNavController.navigate(NavHostFragmentDirections.actionNavHostFragmentToCategoryProductsFragment(it))
+                viewModel.navigationCategoryDone()
+            }
+        })
+
+        //viewModel.getData()
     }
 }
