@@ -23,5 +23,10 @@ data class ProductEntity(
 
     @ColumnInfo(name = "product_amount")
     var amount: Int = 1,
+
+    @ColumnInfo(name = "network_product_id")
+    val productNetworkId: Long
 )
+
+
 

@@ -17,6 +17,7 @@ fun ProductInfoNetwork.toDomainModel():ProductCard{
         name,
         price,
         false,
+        0,
         0
     )
 }

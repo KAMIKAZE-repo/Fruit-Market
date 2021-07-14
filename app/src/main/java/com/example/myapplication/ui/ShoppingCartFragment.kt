@@ -45,6 +45,16 @@ class ShoppingCartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.productList.observe(viewLifecycleOwner, {
             adapter.submitList(it)
+            viewModel.updateTotalPrice()
+        })
+
+        binding.placeOrders.setOnClickListener {
+            viewModel.placeAllOrders()
+            //Log.i("TAG", "Under Construction")
+        }
+
+        viewModel.totalPrice.observe(viewLifecycleOwner, {
+            binding.textView15.text = "Total - $ $it"
         })
     }
 }

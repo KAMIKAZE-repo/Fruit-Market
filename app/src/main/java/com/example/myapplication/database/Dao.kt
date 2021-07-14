@@ -18,4 +18,7 @@ interface Dao {
 
     @Delete
     fun deleteProduct(product: ProductEntity)
+
+    @Query("DELETE FROM products_to_buy")
+    fun deleteAllProducts()
 }

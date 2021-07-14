@@ -10,7 +10,8 @@ data class ProductCard(
     val name: String,
     val price: Double,
     val favorite: Boolean,
-    var offer: Int
+    var offer: Int,
+    var productId: Long
 ):Parcelable
 
 
@@ -21,6 +22,7 @@ fun ProductCard.toDataBaseModel(amount: Int = 1):ProductEntity{
         price,
         offer,
         imgUrl,
-        amount
+        amount,
+        productId
     )
 }

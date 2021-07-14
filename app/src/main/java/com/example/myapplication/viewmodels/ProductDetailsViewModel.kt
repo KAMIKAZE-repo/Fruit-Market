@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.database.ProductDataBase
-import com.example.myapplication.database.ProductEntity
-import com.example.myapplication.model.Product
 import com.example.myapplication.model.ProductCard
 import com.example.myapplication.model.toDataBaseModel
 import com.example.myapplication.repositroies.FoodDatabaseRepo

@@ -28,4 +28,9 @@ class FoodDatabaseRepo(private val dataSource: ProductDataBase){
             dataSource.productDao.deleteProduct(product)
         }
     }
+    suspend fun deleteAllProductToBuy(){
+        withContext(Dispatchers.IO){
+            dataSource.productDao.deleteAllProducts()
+        }
+    }
 }
