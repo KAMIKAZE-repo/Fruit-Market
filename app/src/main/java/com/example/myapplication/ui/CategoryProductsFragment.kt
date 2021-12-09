@@ -1,10 +1,10 @@
 package com.example.myapplication.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
@@ -16,7 +16,6 @@ import com.example.myapplication.adapters.OnItemClickListener
 import com.example.myapplication.adapters.ProductListAdapter
 import com.example.myapplication.databinding.FragmentCategoryProductsBinding
 import com.example.myapplication.model.Category
-import com.example.myapplication.model.ProductCard
 import com.example.myapplication.viewmodels.CategoryProductViewModel
 
 class CategoryProductsFragment : Fragment() {
@@ -26,6 +25,8 @@ class CategoryProductsFragment : Fragment() {
     private lateinit var adapter: ProductListAdapter
     private lateinit var viewModel: CategoryProductViewModel
     private lateinit var category: Category
+    private var layoutManagerIndex = 1 // 1 means gridLayoutManager 2 means LinearLayoutManger//TODO:("should be in the viewModel to survive changes")
+    private var sortOption = false //same goes here
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,5 +60,26 @@ class CategoryProductsFragment : Fragment() {
         val navController = Navigation.findNavController(view)
         NavigationUI.setupWithNavController(binding.toolbar, navController)
         binding.toolbar.title = category.name
+
+        binding.toolbar.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.sort -> {
+                    viewModel.sortProduct(!sortOption)
+                    sortOption = !sortOption
+                    true
+                }
+                R.id.layout_manager -> {
+                    binding.productList.layoutManager = if (layoutManagerIndex == 1 ) {
+                        layoutManagerIndex = 2
+                        linearLayoutManager
+                    }else{
+                        layoutManagerIndex = 1
+                        gridLayoutManager
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
     }
 }
