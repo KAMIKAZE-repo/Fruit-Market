@@ -26,24 +26,15 @@ class CategoryProductViewModel(app: Application, category: Category): AndroidVie
     fun addToFavorite(pos: Int){
         val newData = mutableListOf<ProductCard>()
         _listProduct.value?.let { newData.addAll(it) }
-        val newProduct = with(newData[pos]){
-            ProductCard(
-                this.imgUrl,
-                this.name,
-                this.price,
-                true,
-                this.offer,
-                this.productId
+        with(newData[pos].copy(favorite = true)){
+            newData[pos] = this
+            favoriteProducts.add(
+                FavoriteProduct(
+                    this
+                )
             )
         }
-        newData[pos] = newProduct
         _listProduct.value = newData
-
-        favoriteProducts.add(
-            FavoriteProduct(
-                newProduct
-            )
-        )
     }
 
     private suspend fun getData(category: Category){

@@ -34,6 +34,7 @@ class CategoriesCardListAdapter(val clickLListener: OnProductClickListener): Lis
         }
 
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ProductListByCategorieBinding.inflate(layoutInflater, parent, false)

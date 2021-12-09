@@ -18,7 +18,7 @@ class FavoritesViewModel(app: Application): AndroidViewModel(app) {
     private val _listFavorites = MutableLiveData<List<FavoriteProduct>>()
     val listFavorite: LiveData<List<FavoriteProduct>>
         get() = _listFavorites
-
+    
     init {
         _listFavorites.value = favoriteProducts
     }
@@ -35,7 +35,6 @@ class FavoritesViewModel(app: Application): AndroidViewModel(app) {
         newData[pos] = newProduct
         _listFavorites.value = newData
     }
-
     fun addToBuy(product: ProductCard, amount: Int){
         viewModelScope.launch {
             repository.addNewProductToBy(product.toDataBaseModel(amount))
